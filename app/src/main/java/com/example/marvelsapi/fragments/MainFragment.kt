@@ -67,7 +67,7 @@ class MainFragment : Fragment() {
     }
 
     private fun updateListView(newList: List<Hero>) {
-        heroes_recycler_list.adapter = HeroListAdapter(newList)
+        heroes_recycler_list.adapter = HeroListAdapter(newList, this)
     }
 
     fun retrieveHeroes(offset: Int) {
