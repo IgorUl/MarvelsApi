@@ -6,6 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
-    android:id="@+id/main_container">
+    android:id="@+id/hero_list_container">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/heroes_recycler_list">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
