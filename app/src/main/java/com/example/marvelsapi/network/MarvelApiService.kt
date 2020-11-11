@@ -73,7 +73,6 @@ class MarvelApiService {
 
         val gson: Gson = GsonBuilder().setLenient().create()
 
-
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(ApiConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -85,6 +84,5 @@ class MarvelApiService {
 
     fun getAllHeroes(offset: Int): Call<MarvelCharacters> {
         return init().getCharacter(offset)
-
     }
 }

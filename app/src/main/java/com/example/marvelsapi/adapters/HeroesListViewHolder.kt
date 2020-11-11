@@ -14,3 +14,4 @@ class HeroesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
 }
+
