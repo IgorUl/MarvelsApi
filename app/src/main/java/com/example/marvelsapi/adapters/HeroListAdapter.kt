@@ -21,7 +21,8 @@ class HeroListAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //    //todo поменять при проблемах
+
+
     var isLoading: Boolean = false
 
     var loadMore: MainContract.ILoadMore? = null
@@ -30,13 +31,13 @@ class HeroListAdapter(
     val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
 
     init {
+        //todo delete
         Log.i("INIT ADAPTER", "++++++++")
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount: Int = layoutManager.itemCount
-                //todo закоментить и вынести в переменную со значением 5
                 val visibleItem: Int = layoutManager.childCount
 
                 val lastVisibleItems: Int =
@@ -46,7 +47,7 @@ class HeroListAdapter(
                     loadMore?.onLoadMore()
                     isLoading = true
                     Log.d("RECYCLER", "Last Item Reached: offset = ${ApiConstants.offset}")
-//                    retrieveHeroes(ApiConstants.offset + ApiConstants.limit)
+
                 }
             }
         })
@@ -60,6 +61,7 @@ class HeroListAdapter(
         }
     }
 
+    //todo delete
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
 
@@ -75,6 +77,7 @@ class HeroListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        //todo delete
         Log.i("ONCREATEHOLDER CALL", "+++++++++")
         return if (viewType == VIEW_TYPE_HERO) {
             HeroesListViewHolder(
@@ -88,15 +91,16 @@ class HeroListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        //todo delete
         Log.i("ONBINDVIEWHOLDER CALL", "+++++++")
         if (holder is HeroesListViewHolder) {
             val hero: Hero? = heroList[position]
             val heroImagePath: String =
                 hero?.thumbnail?.path + ApiConstants.IMAGE_RATIO + hero?.thumbnail?.extension
             val heroHolder: HeroesListViewHolder = holder
-                    Glide.with(fragment)
-                        .load(heroImagePath)
-                        .into(holder.heroImage)
+            Glide.with(fragment)
+                .load(heroImagePath)
+                .into(holder.heroImage)
             heroHolder.heroName.text = hero?.name
             Log.i("HERO", "${heroHolder.heroName} + ${hero?.name}")
             heroHolder.heroDescription.text = hero?.description
@@ -112,33 +116,13 @@ class HeroListAdapter(
         isLoading = false
     }
 
+    fun setHeroList(heroList: List<Hero?>) {
+        this.heroList = heroList
+        notifyDataSetChanged()
+    }
+
     companion object {
         const val VIEW_TYPE_HERO = 0
         const val VIEW_TYPE_LOADING = 1
     }
-
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroesListViewHolder {
-//        return HeroesListViewHolder(
-//            LayoutInflater.from(parent.context).inflate(R.layout.recycler_view, parent, false)
-//        )
-//    }
-//
-//    override fun getItemCount(): Int = heroList.size
-//
-//    override fun onBindViewHolder(holder: HeroesListViewHolder, position: Int) {
-//
-//
-//        val hero: Hero = heroList[position]
-//
-//        val heroImagePath: String =
-//            hero.thumbnail.path + ApiConstants.IMAGE_RATIO + hero.thumbnail.extension
-//
-//
-//        Glide.with(fragment)
-//            .load(heroImagePath)
-//            .into(holder.heroImage)
-//
-//        holder.heroName.text = hero.name
-//        holder.heroDescription.text = hero.description
-//    }
 }
