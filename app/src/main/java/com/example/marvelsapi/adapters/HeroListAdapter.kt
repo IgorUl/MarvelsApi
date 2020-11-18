@@ -1,7 +1,5 @@
 package com.example.marvelsapi.adapters
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -16,13 +14,11 @@ import com.example.marvelsapi.data.Hero
 
 class HeroListAdapter(
     recyclerView: RecyclerView,
-    private var heroList: List<Hero?>,
     private val fragment: Fragment
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-
+    private var heroList: List<Hero?> = listOf()
     var isLoading: Boolean = false
 
     var loadMore: MainContract.ILoadMore? = null
@@ -31,8 +27,6 @@ class HeroListAdapter(
     val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
 
     init {
-        //todo delete
-        Log.i("INIT ADAPTER", "++++++++")
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -46,30 +40,17 @@ class HeroListAdapter(
                 if (!isLoading && totalItemCount <= (lastVisibleItems + visibleItem)) {
                     loadMore?.onLoadMore()
                     isLoading = true
-                    Log.d("RECYCLER", "Last Item Reached: offset = ${ApiConstants.offset}")
-
                 }
             }
         })
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (heroList[position] == null) {
+        return if (heroList[position]?.id == VIEW_TYPE_LOADING) {
             VIEW_TYPE_LOADING
         } else {
             VIEW_TYPE_HERO
         }
-    }
-
-    //todo delete
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-
-        var layoutPosition: Int = holder.layoutPosition
-        Log.d(TAG, "onViewAttachedToWindow: getayoutPosition = " + layoutPosition);
-
-        layoutPosition = holder.adapterPosition;
-        Log.d(TAG, "onViewAttachedToWindow: getAdapterPosition = " + layoutPosition);
     }
 
     fun setLoadMore(loadMore: MainContract.ILoadMore) {
@@ -77,8 +58,6 @@ class HeroListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        //todo delete
-        Log.i("ONCREATEHOLDER CALL", "+++++++++")
         return if (viewType == VIEW_TYPE_HERO) {
             HeroesListViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.recycler_view, parent, false)
@@ -91,8 +70,6 @@ class HeroListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //todo delete
-        Log.i("ONBINDVIEWHOLDER CALL", "+++++++")
         if (holder is HeroesListViewHolder) {
             val hero: Hero? = heroList[position]
             val heroImagePath: String =
@@ -102,7 +79,6 @@ class HeroListAdapter(
                 .load(heroImagePath)
                 .into(holder.heroImage)
             heroHolder.heroName.text = hero?.name
-            Log.i("HERO", "${heroHolder.heroName} + ${hero?.name}")
             heroHolder.heroDescription.text = hero?.description
         } else if (holder is LoadingViewHolder) {
             val loadingHolder: LoadingViewHolder = holder
@@ -123,6 +99,6 @@ class HeroListAdapter(
 
     companion object {
         const val VIEW_TYPE_HERO = 0
-        const val VIEW_TYPE_LOADING = 1
+        const val VIEW_TYPE_LOADING = -1
     }
 }

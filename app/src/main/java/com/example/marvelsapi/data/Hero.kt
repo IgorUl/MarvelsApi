@@ -14,5 +14,5 @@ data class Hero(
     val description: String,
 
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail
+    val thumbnail: Thumbnail?
 )

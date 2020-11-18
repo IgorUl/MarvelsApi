@@ -11,20 +11,28 @@ class MainPresenter(private val model: Model, private val view: MainContract.Mai
     fun getHeroesList(): List<Hero?> =
         model.getHeroesList
 
-    fun loadHeroes() = model.loadHeroList(object: MainContract.Network {
+    fun loadHeroes() = model.loadHeroList(object : MainContract.Network {
         override fun onSuccess(list: List<Hero?>) {
-            Log.i("ONSUCCESS+++", "$list")
-            model.removeProgressBar()
+            if (model.getHeroesList.isNotEmpty() && model.getHeroesList[model.progressBarPosition] == model.getProgressBar) {
+                model.removeProgressBar()
+            }
             model.addList(list)
             view.updateHeroesView()
             view.setLoaded()
-            Log.i("LOADED", "${view.getLoaded()}")
-
-
         }
+
         override fun onError() {
+            //todo add snackbar for refresh
             Log.i("ONERROR", "CALL")
-            TODO("Not yet implemented")
         }
     })
+
+    fun onCreate() {
+        view.updateHeroesView()
+    }
+
+    fun addProgressBar() {
+        model.addProgressBar()
+        view.notifyItemInsert(model.progressBarPosition)
+    }
 }
