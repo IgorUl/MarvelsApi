@@ -4,7 +4,6 @@ import com.example.marvelsapi.ApiConstants
 import com.example.marvelsapi.data.MarvelCharacters
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,12 +19,11 @@ class MarvelApiService {
     private val timeStamp: String = System.currentTimeMillis().toString()
 
     private fun createHttpClient(): OkHttpClient {
-        //todo cache maybe?
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain ->
             val original: Request = chain.request()
             val originalHttpUrl: HttpUrl = original.url()
-            val url = originalHttpUrl.newBuilder()
+            val url: HttpUrl = originalHttpUrl.newBuilder()
                 .addQueryParameter("ts", timeStamp)
                 .addQueryParameter("apikey", ApiConstants.PUBLIC_KEY)
                 .addQueryParameter(
@@ -72,7 +70,6 @@ class MarvelApiService {
 
 
     private fun init(): ApiInterface {
-
         val gson: Gson = GsonBuilder().setLenient().create()
 
         val retrofit: Retrofit = Retrofit.Builder()

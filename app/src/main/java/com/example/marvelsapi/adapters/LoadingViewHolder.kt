@@ -6,6 +6,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.marvelsapi.R
 
 
-internal class LoadingViewHolder(itemView: View) : ViewHolder(itemView) {
+class LoadingViewHolder(itemView: View) : ViewHolder(itemView) {
     var progressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
 }
