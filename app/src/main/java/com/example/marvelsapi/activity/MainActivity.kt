@@ -3,7 +3,7 @@ package com.example.marvelsapi.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.marvelsapi.R
-import com.example.marvelsapi.fragments.MainFragment
+import com.example.marvelsapi.fragments.HeroListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.main_container, MainFragment())
+                .replace(R.id.main_container, HeroListFragment())
                 .commit()
         }
     }

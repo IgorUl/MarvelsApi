@@ -11,12 +11,12 @@ import com.example.marvelsapi.R
 import com.example.marvelsapi.adapters.HeroListAdapter
 import com.example.marvelsapi.contracts.MainContract
 import com.example.marvelsapi.data.Model
-import com.example.marvelsapi.presenters.MainPresenter
+import com.example.marvelsapi.presenters.HeroListPresenter
 import kotlinx.android.synthetic.main.hero_list_fragment.*
 
-class MainFragment : Fragment(), MainContract.MainView {
+class HeroListFragment : Fragment(), MainContract.MainView {
 
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: HeroListPresenter
     lateinit var adapter: HeroListAdapter
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val model: Model = (activity?.application as MarvelApplication).model
-        presenter = MainPresenter(model, this)
+        presenter = HeroListPresenter(model, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
