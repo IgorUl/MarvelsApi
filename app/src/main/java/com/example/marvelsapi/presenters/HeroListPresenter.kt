@@ -6,7 +6,7 @@ import com.example.marvelsapi.contracts.MainContract
 import com.example.marvelsapi.data.Hero
 import com.example.marvelsapi.data.Model
 
-class MainPresenter(private val model: Model, private val view: MainContract.MainView) {
+class HeroListPresenter(private val model: Model, private val view: MainContract.MainView) {
 
     fun getHeroesList(): List<Hero?> =
         model.getHeroesList
