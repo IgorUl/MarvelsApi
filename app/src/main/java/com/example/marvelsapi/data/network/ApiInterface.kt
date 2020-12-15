@@ -1,7 +1,7 @@
-package com.example.marvelsapi.network
+package com.example.marvelsapi.data.network
 
-import com.example.marvelsapi.data.Hero
-import com.example.marvelsapi.data.MarvelCharacters
+import com.example.marvelsapi.data.model.Hero
+import com.example.marvelsapi.data.model.MarvelCharacters
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

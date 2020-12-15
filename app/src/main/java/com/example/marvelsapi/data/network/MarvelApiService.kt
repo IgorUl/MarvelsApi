@@ -1,7 +1,7 @@
-package com.example.marvelsapi.network
+package com.example.marvelsapi.data.network
 
 import com.example.marvelsapi.ApiConstants
-import com.example.marvelsapi.data.MarvelCharacters
+import com.example.marvelsapi.data.model.MarvelCharacters
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.HttpUrl
@@ -32,7 +32,6 @@ class MarvelApiService {
                         timeStamp + ApiConstants.PRIVATE_KEY + ApiConstants.PUBLIC_KEY
                     )
                 )
-//                .addQueryParameter("offset", "$offset")
                 .addQueryParameter("limit", "${ApiConstants.limit}")
                 .build()
             val requestBuilder: Request.Builder = original.newBuilder()

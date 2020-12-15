@@ -1,7 +1,7 @@
-package com.example.marvelsapi.data
+package com.example.marvelsapi.data.model
 
-import com.example.marvelsapi.contracts.MainContract
-import com.example.marvelsapi.network.Loader
+import com.example.marvelsapi.ui.contracts.MainContract
+import com.example.marvelsapi.data.Loader
 
 class Model {
 

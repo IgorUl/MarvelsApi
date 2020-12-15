@@ -1,10 +1,10 @@
-package com.example.marvelsapi.network
+package com.example.marvelsapi.data
 
-import android.util.Log
 import com.example.marvelsapi.ApiConstants
-import com.example.marvelsapi.contracts.MainContract
-import com.example.marvelsapi.data.Hero
-import com.example.marvelsapi.data.MarvelCharacters
+import com.example.marvelsapi.ui.contracts.MainContract
+import com.example.marvelsapi.data.model.Hero
+import com.example.marvelsapi.data.model.MarvelCharacters
+import com.example.marvelsapi.data.network.MarvelApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +18,7 @@ class Loader {
         val call: Call<MarvelCharacters> = MarvelApiService().getAllHeroes(ApiConstants.offset)
         call.enqueue(object : Callback<MarvelCharacters> {
             override fun onFailure(call: Call<MarvelCharacters>?, t: Throwable?) {
-                //todo fail
-                Log.i("FAIL", t.toString())
+                network.onError()
             }
 
             override fun onResponse(
@@ -39,4 +38,5 @@ class Loader {
 
         })
     }
+
 }

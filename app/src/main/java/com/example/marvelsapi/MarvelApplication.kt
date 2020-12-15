@@ -1,7 +1,7 @@
-package com.example.marvelsapi.data
+package com.example.marvelsapi
 
 import android.app.Application
-import com.example.marvelsapi.network.Loader
+import com.example.marvelsapi.data.model.Model
 
 class MarvelApplication : Application() {
 

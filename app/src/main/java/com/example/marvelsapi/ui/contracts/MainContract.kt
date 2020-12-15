@@ -1,6 +1,6 @@
-package com.example.marvelsapi.contracts
+package com.example.marvelsapi.ui.contracts
 
-import com.example.marvelsapi.data.Hero
+import com.example.marvelsapi.data.model.Hero
 
 interface MainContract {
 
@@ -8,6 +8,7 @@ interface MainContract {
         fun updateHeroesView()
         fun notifyItemInsert(position: Int)
         fun setLoaded()
+        fun showRefreshSnackbar()
     }
 
     interface ILoadMore {

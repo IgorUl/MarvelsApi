@@ -1,4 +1,4 @@
-package com.example.marvelsapi.adapters
+package com.example.marvelsapi.ui.adapters
 
 import android.view.View
 import android.widget.ImageView

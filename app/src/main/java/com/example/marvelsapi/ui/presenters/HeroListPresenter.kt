@@ -1,10 +1,8 @@
-package com.example.marvelsapi.presenters
+package com.example.marvelsapi.ui.presenters
 
-import android.util.Log
-import com.example.marvelsapi.ApiConstants
-import com.example.marvelsapi.contracts.MainContract
-import com.example.marvelsapi.data.Hero
-import com.example.marvelsapi.data.Model
+import com.example.marvelsapi.ui.contracts.MainContract
+import com.example.marvelsapi.data.model.Hero
+import com.example.marvelsapi.data.model.Model
 
 class HeroListPresenter(private val model: Model, private val view: MainContract.MainView) {
 
@@ -22,12 +20,12 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
         }
 
         override fun onError() {
-            //todo add snackbar for refresh
-            Log.i("ONERROR", "CALL")
+            view.showRefreshSnackbar()
         }
     })
 
     fun onCreate() {
+        if (model.getHeroesList.last()?.id == -1) model.removeProgressBar()
         view.updateHeroesView()
     }
 

@@ -1,4 +1,4 @@
-package com.example.marvelsapi.fragments
+package com.example.marvelsapi.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.marvelsapi.data.MarvelApplication
+import com.example.marvelsapi.MarvelApplication
 import com.example.marvelsapi.R
-import com.example.marvelsapi.adapters.HeroListAdapter
-import com.example.marvelsapi.contracts.MainContract
-import com.example.marvelsapi.data.Model
-import com.example.marvelsapi.presenters.HeroListPresenter
+import com.example.marvelsapi.ui.adapters.HeroListAdapter
+import com.example.marvelsapi.ui.contracts.MainContract
+import com.example.marvelsapi.data.model.Model
+import com.example.marvelsapi.ui.presenters.HeroListPresenter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.hero_list_fragment.*
 
 class HeroListFragment : Fragment(), MainContract.MainView {
@@ -66,5 +67,10 @@ class HeroListFragment : Fragment(), MainContract.MainView {
 
     override fun setLoaded() {
         adapter.setLoaded()
+    }
+
+    override fun showRefreshSnackbar() {
+        val snackbar = Snackbar.make(hero_list_container, "OOPS", Snackbar.LENGTH_INDEFINITE)
+        snackbar.setAction("DID IT AGAIN") { presenter.loadHeroes() }.show()
     }
 }

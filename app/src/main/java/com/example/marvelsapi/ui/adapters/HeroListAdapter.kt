@@ -1,4 +1,4 @@
-package com.example.marvelsapi.adapters
+package com.example.marvelsapi.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.marvelsapi.ApiConstants
 import com.example.marvelsapi.R
-import com.example.marvelsapi.contracts.MainContract
-import com.example.marvelsapi.data.Hero
+import com.example.marvelsapi.ui.contracts.MainContract
+import com.example.marvelsapi.data.model.Hero
 
 
 class HeroListAdapter(
@@ -77,6 +77,7 @@ class HeroListAdapter(
             val heroHolder: HeroesListViewHolder = holder
             Glide.with(fragment)
                 .load(heroImagePath)
+                .placeholder(R.drawable.marvel)
                 .into(holder.heroImage)
             heroHolder.heroName.text = hero?.name
             heroHolder.heroDescription.text = hero?.description
