@@ -26,8 +26,10 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     })
 
     fun onCreate() {
-//        val lastItemID
-        if (model.getHeroesList.last()?.id == -1) {model.removeProgressBar()}
+        val lastItemID = model.getHeroesList.last()?.id
+        if (lastItemID == -1) {
+            model.removeProgressBar()
+        }
         view.updateHeroesView()
     }
 
