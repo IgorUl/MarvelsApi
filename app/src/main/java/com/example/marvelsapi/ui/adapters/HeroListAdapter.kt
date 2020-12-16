@@ -20,12 +20,13 @@ class HeroListAdapter(
 
     private var heroList: List<Hero?> = listOf()
     var isLoading: Boolean = false
-
+//todo presenter
     var loadMore: MainContract.ILoadMore? = null
         private set
 
     val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
 
+    //todo fragment
     init {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -38,6 +39,7 @@ class HeroListAdapter(
                     (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
 
                 if (!isLoading && totalItemCount <= (lastVisibleItems + visibleItem)) {
+                    //todo presenter
                     loadMore?.onLoadMore()
                     isLoading = true
                 }
@@ -60,7 +62,7 @@ class HeroListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_HERO) {
             HeroesListViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.recycler_view, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false)
             )
         } else {
             LoadingViewHolder(

@@ -20,7 +20,7 @@ class Model {
     private val progressBarHero = Hero(-1, "progressBar", "", null)
 
 
-    fun addProgressBar() {
+    fun addProgressBarItem() {
         progressBarPosition = heroesList.size
         heroesList.add(progressBarHero)
     }

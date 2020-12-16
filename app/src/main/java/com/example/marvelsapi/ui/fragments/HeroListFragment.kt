@@ -70,7 +70,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
     }
 
     override fun showRefreshSnackbar() {
-        val snackbar = Snackbar.make(hero_list_container, "OOPS", Snackbar.LENGTH_INDEFINITE)
-        snackbar.setAction("DID IT AGAIN") { presenter.loadHeroes() }.show()
+        val snackbar = Snackbar.make(rvhero_list_container, resources.getText(R.string.snackbar_notify), Snackbar.LENGTH_INDEFINITE)
+        snackbar.setAction(resources.getText(R.string.snackbar_button)) { presenter.loadHeroes() }.show()
     }
 }

@@ -10,6 +10,7 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
         model.getHeroesList
 
     fun loadHeroes() = model.loadHeroList(object : MainContract.Network {
+        //длинную строку по переменным
         override fun onSuccess(list: List<Hero?>) {
             if (model.getHeroesList.isNotEmpty() && model.getHeroesList[model.progressBarPosition] == model.getProgressBar) {
                 model.removeProgressBar()
@@ -25,12 +26,13 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     })
 
     fun onCreate() {
-        if (model.getHeroesList.last()?.id == -1) model.removeProgressBar()
+//        val lastItemID
+        if (model.getHeroesList.last()?.id == -1) {model.removeProgressBar()}
         view.updateHeroesView()
     }
 
     fun addProgressBar() {
-        model.addProgressBar()
+        model.addProgressBarItem()
         view.notifyItemInsert(model.progressBarPosition)
     }
 }
