@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-
 class MarvelApiService {
 
     private val timeStamp: String = System.currentTimeMillis().toString()
@@ -49,8 +48,8 @@ class MarvelApiService {
             val digest: MessageDigest = MessageDigest.getInstance(md5)
             digest.update(stringToHash.toByteArray())
             val messageDigest: ByteArray = digest.digest()
-
             val hexString = StringBuilder()
+
             for (aMessageDigest: Byte in messageDigest) {
                 var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
                 while (h.length < 2) {
@@ -59,14 +58,11 @@ class MarvelApiService {
                 hexString.append(h)
             }
             return hexString.toString()
-
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
         }
-
         return ""
     }
-
 
     private fun init(): ApiInterface {
         val gson: Gson = GsonBuilder().setLenient().create()
@@ -76,7 +72,6 @@ class MarvelApiService {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(createHttpClient())
             .build()
-
         return retrofit.create(ApiInterface::class.java)
     }
 

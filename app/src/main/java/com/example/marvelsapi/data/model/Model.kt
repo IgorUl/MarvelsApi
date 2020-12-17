@@ -13,7 +13,7 @@ class Model {
 
     private val loader = Loader()
 
-    //заглушка для progress bara
+    //заглушка для progress bar
     val getProgressBar: Hero
         get() = progressBarHero
 
