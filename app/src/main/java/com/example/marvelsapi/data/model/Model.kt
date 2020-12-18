@@ -5,6 +5,7 @@ import com.example.marvelsapi.data.Loader
 
 class Model {
 
+    var isItemsLoading: Boolean = false
     var progressBarPosition: Int = 0
     val getHeroesList: List<Hero?>
         get() = heroesList

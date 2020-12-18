@@ -9,7 +9,7 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     fun getHeroesList(): List<Hero?> =
         model.getHeroesList
 
-    var isLoading: Boolean = false
+
     private var loadMore: MainContract.ILoadMore? = null
 
     fun loadHeroes() = model.loadHeroList(object : MainContract.Network {
@@ -38,8 +38,10 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     }
 
     fun setLoaded() {
-        isLoading = false
+        model.isItemsLoading = false
     }
+
+    fun getLoadState() = model.isItemsLoading
 
     fun onCreate() {
         val lastItemID = model.getHeroesList.last()?.id
@@ -56,6 +58,6 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
 
     fun loadMore() {
         loadMore?.onLoadMore()
-        isLoading = true
+        model.isItemsLoading = true
     }
 }

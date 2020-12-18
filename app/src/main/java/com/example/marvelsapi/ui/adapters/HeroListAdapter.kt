@@ -29,11 +29,11 @@ class HeroListAdapter(
         return if (viewType == VIEW_TYPE_HERO) {
             HeroesListViewHolder(
                 LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_recycler_view, parent, false)
+                    .inflate(R.layout.item_hero, parent, false)
             )
         } else {
             LoadingViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.progress_bar, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_progress_bar, parent, false)
             )
         }
     }

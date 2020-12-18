@@ -26,7 +26,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.hero_list_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_hero_list, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
                 val lastVisibleItems: Int =
                     (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
 
-                if (!presenter.isLoading && totalItemCount <= (lastVisibleItems + visibleItem)) {
+                if (!presenter.getLoadState() && totalItemCount <= (lastVisibleItems + visibleItem)) {
                     presenter.loadMore()
                 }
             }
