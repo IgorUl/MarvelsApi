@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.marvelsapi.MarvelApplication
 import com.example.marvelsapi.R
 import com.example.marvelsapi.ui.adapters.HeroListAdapter
@@ -13,7 +14,7 @@ import com.example.marvelsapi.ui.contracts.MainContract
 import com.example.marvelsapi.data.model.Model
 import com.example.marvelsapi.ui.presenters.HeroListPresenter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.hero_list_fragment.*
+import kotlinx.android.synthetic.main.fragment_hero_list.*
 
 class HeroListFragment : Fragment(), MainContract.MainView {
 
@@ -25,7 +26,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.hero_list_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_hero_list, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,23 +37,29 @@ class HeroListFragment : Fragment(), MainContract.MainView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initializeRecyclerView()
-
-        if (savedInstanceState == null) {
-            presenter.loadHeroes()
-        } else {
-            presenter.onCreate()
-        }
+        presenter.onCreate()
     }
 
     private fun initializeRecyclerView() {
+
         heroes_recycler_list.layoutManager = LinearLayoutManager(context)
-        adapter = HeroListAdapter(heroes_recycler_list, this)
+        adapter = HeroListAdapter(this)
         heroes_recycler_list.adapter = adapter
-        adapter.setLoadMore(object : MainContract.ILoadMore {
-            override fun onLoadMore() {
-                presenter.addProgressBar()
-                presenter.loadHeroes()
-                adapter.setLoaded()
+        val layoutManager: LinearLayoutManager =
+            heroes_recycler_list.layoutManager as LinearLayoutManager
+        heroes_recycler_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val totalItemCount: Int = layoutManager.itemCount
+                val visibleItem: Int = layoutManager.childCount
+
+                val lastVisibleItems: Int =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+
+                if (!presenter.getLoadState() && totalItemCount <= (lastVisibleItems + visibleItem)) {
+                    presenter.onListEndReached()
+                }
             }
         })
     }
@@ -66,11 +73,16 @@ class HeroListFragment : Fragment(), MainContract.MainView {
     }
 
     override fun setLoaded() {
-        adapter.setLoaded()
+        presenter.setLoaded()
     }
 
     override fun showRefreshSnackbar() {
-        val snackbar = Snackbar.make(rvhero_list_container, resources.getText(R.string.snackbar_notify), Snackbar.LENGTH_INDEFINITE)
-        snackbar.setAction(resources.getText(R.string.snackbar_button)) { presenter.loadHeroes() }.show()
+        val snackbar = Snackbar.make(
+            rvhero_list_container,
+            resources.getText(R.string.snackbar_notify),
+            Snackbar.LENGTH_INDEFINITE
+        )
+        snackbar.setAction(resources.getText(R.string.snackbar_button)) { presenter.loadHeroes() }
+            .show()
     }
 }

@@ -5,6 +5,7 @@ import com.example.marvelsapi.data.Loader
 
 class Model {
 
+    var isItemsLoading: Boolean = false
     var progressBarPosition: Int = 0
     val getHeroesList: List<Hero?>
         get() = heroesList
@@ -13,12 +14,11 @@ class Model {
 
     private val loader = Loader()
 
-    //заглушка для progress bara
+    //заглушка для progress bar
     val getProgressBar: Hero
         get() = progressBarHero
 
     private val progressBarHero = Hero(-1, "progressBar", "", null)
-
 
     fun addProgressBarItem() {
         progressBarPosition = heroesList.size
