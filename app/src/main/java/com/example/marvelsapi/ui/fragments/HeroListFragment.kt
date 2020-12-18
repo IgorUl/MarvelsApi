@@ -14,7 +14,7 @@ import com.example.marvelsapi.ui.contracts.MainContract
 import com.example.marvelsapi.data.model.Model
 import com.example.marvelsapi.ui.presenters.HeroListPresenter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.hero_list_fragment.*
+import kotlinx.android.synthetic.main.fragment_hero_list.*
 
 class HeroListFragment : Fragment(), MainContract.MainView {
 
@@ -37,12 +37,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initializeRecyclerView()
-
-        if (savedInstanceState == null) {
-            presenter.loadHeroes()
-        } else {
-            presenter.onCreate()
-        }
+        presenter.onCreate()
     }
 
     private fun initializeRecyclerView() {
@@ -63,15 +58,8 @@ class HeroListFragment : Fragment(), MainContract.MainView {
                     (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
 
                 if (!presenter.getLoadState() && totalItemCount <= (lastVisibleItems + visibleItem)) {
-                    presenter.loadMore()
+                    presenter.onListEndReached()
                 }
-            }
-        })
-        presenter.setLoadMore(object : MainContract.ILoadMore {
-            override fun onLoadMore() {
-                presenter.addProgressBar()
-                presenter.loadHeroes()
-                presenter.setLoaded()
             }
         })
     }

@@ -9,9 +9,6 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     fun getHeroesList(): List<Hero?> =
         model.getHeroesList
 
-
-    private var loadMore: MainContract.ILoadMore? = null
-
     fun loadHeroes() = model.loadHeroList(object : MainContract.Network {
         override fun onSuccess(list: List<Hero?>) {
             if (model.getHeroesList.isNotEmpty() &&
@@ -32,11 +29,6 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     fun isProgressBar(position: Int) =
         model.getHeroesList[position] == model.getProgressBar
 
-
-    fun setLoadMore(loadMore: MainContract.ILoadMore) {
-        this.loadMore = loadMore
-    }
-
     fun setLoaded() {
         model.isItemsLoading = false
     }
@@ -44,20 +36,26 @@ class HeroListPresenter(private val model: Model, private val view: MainContract
     fun getLoadState() = model.isItemsLoading
 
     fun onCreate() {
-        val lastItemID = model.getHeroesList.last()?.id
-        if (lastItemID == -1) {
-            model.removeProgressBar()
+        if(model.getHeroesList.isNotEmpty()) {
+            val lastItemID = model.getHeroesList.last()?.id
+            if (lastItemID == -1) {
+                model.removeProgressBar()
+            }
+            view.updateHeroesView()
+        } else {
+            loadHeroes()
         }
-        view.updateHeroesView()
     }
 
-    fun addProgressBar() {
+    private fun addProgressBar() {
         model.addProgressBarItem()
         view.notifyItemInsert(model.progressBarPosition)
     }
 
-    fun loadMore() {
-        loadMore?.onLoadMore()
+    fun onListEndReached() {
+        addProgressBar()
+        loadHeroes()
+//        setLoaded()
         model.isItemsLoading = true
     }
 }

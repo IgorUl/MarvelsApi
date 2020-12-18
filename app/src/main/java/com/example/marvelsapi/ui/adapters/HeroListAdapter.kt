@@ -33,7 +33,8 @@ class HeroListAdapter(
             )
         } else {
             LoadingViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_progress_bar, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_progress_bar, parent, false)
             )
         }
     }

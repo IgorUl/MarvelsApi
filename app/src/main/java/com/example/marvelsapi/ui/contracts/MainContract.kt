@@ -11,10 +11,6 @@ interface MainContract {
         fun showRefreshSnackbar()
     }
 
-    interface ILoadMore {
-        fun onLoadMore()
-    }
-
     interface Network {
         fun onError()
         fun onSuccess(list: List<Hero?>)
