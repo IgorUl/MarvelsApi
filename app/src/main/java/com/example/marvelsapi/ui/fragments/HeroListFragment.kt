@@ -42,12 +42,12 @@ class HeroListFragment : Fragment(), MainContract.MainView {
 
     private fun initializeRecyclerView() {
 
-        heroes_recycler_list.layoutManager = LinearLayoutManager(context)
+        rvheroes_list.layoutManager = LinearLayoutManager(context)
         adapter = HeroListAdapter(this)
-        heroes_recycler_list.adapter = adapter
+        rvheroes_list.adapter = adapter
         val layoutManager: LinearLayoutManager =
-            heroes_recycler_list.layoutManager as LinearLayoutManager
-        heroes_recycler_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            rvheroes_list.layoutManager as LinearLayoutManager
+        rvheroes_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -78,7 +78,7 @@ class HeroListFragment : Fragment(), MainContract.MainView {
 
     override fun showRefreshSnackbar() {
         val snackbar = Snackbar.make(
-            rvhero_list_container,
+            hero_list_container,
             resources.getText(R.string.snackbar_notify),
             Snackbar.LENGTH_INDEFINITE
         )
