@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".ui.activity.MainActivity">
+    tools:context="ru.ulyakin.marvelapi.ui.activity.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -29,6 +29,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvheroes_list"
+        app:layoutManager="LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

@@ -1,9 +1,9 @@
-package com.example.marvelsapi.ui.activity
+package ru.ulyakin.marvelapi.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.marvelsapi.R
-import com.example.marvelsapi.ui.fragments.HeroListFragment
+import ru.ulyakin.marvelapi.ui.fragments.HeroListFragment
 
 class MainActivity : AppCompatActivity() {
 
