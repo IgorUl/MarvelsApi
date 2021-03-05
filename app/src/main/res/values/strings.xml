@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Marvels Api</string>
     <string name="hero_photo">hero photo</string>
-    <string name="snackbar_notify">OOPS</string>
-    <string name="snackbar_button">DID IT AGAIN</string>
 </resources>
