@@ -13,12 +13,12 @@ class MarvelRepository(private val service: ApiInterface, private val mapper: He
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ), pagingSourceFactory = { MarvelPagingSource(service, mapper) }
         ).flow
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 20
+        const val NETWORK_PAGE_SIZE = 10
     }
 }

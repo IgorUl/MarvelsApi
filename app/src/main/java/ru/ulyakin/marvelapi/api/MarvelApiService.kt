@@ -1,18 +1,20 @@
 package ru.ulyakin.marvelapi.api
 
-import ru.ulyakin.marvelapi.common.ApiConstants
+import ru.ulyakin.marvelapi.common.ApiConstants.Companion.limit
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.BASE_URL
+import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_BASE_URL
+import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_PRIVATE_KEY
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_API_KEY
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_HASH
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_LIMIT
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_SSL
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_TIME_STAMP
+import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_PUBLIC_KEY
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
@@ -31,14 +33,14 @@ class MarvelApiService {
 
     private fun createDefaultParameters(chain: Interceptor.Chain): Response {
 
-        val stringToHash: String = timeStamp + ApiConstants.PRIVATE_KEY + ApiConstants.PUBLIC_KEY
+        val stringToHash: String = timeStamp + PROP_PRIVATE_KEY + PROP_PUBLIC_KEY
         val original: Request = chain.request()
         val originalHttpUrl: HttpUrl = original.url
         val url: HttpUrl = originalHttpUrl.newBuilder()
             .addQueryParameter(PROP_TIME_STAMP, timeStamp)
-            .addQueryParameter(PROP_API_KEY, ApiConstants.PUBLIC_KEY)
+            .addQueryParameter(PROP_API_KEY, PROP_PUBLIC_KEY)
             .addQueryParameter(PROP_HASH, stringToHash.md5())
-            .addQueryParameter(PROP_LIMIT, "${ApiConstants.limit}")
+            .addQueryParameter(PROP_LIMIT, "$limit")
             .build()
         val requestBuilder: Request.Builder = original.newBuilder()
             .url(url)
@@ -47,11 +49,11 @@ class MarvelApiService {
     }
 
     fun init(): ApiInterface {
-        val gson: Gson = GsonBuilder().setLenient().create()
+        val responseGson: Gson = GsonBuilder().setLenient().create()
 
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl(PROP_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(responseGson))
             .client(unsafeClient)
             .build()
         return retrofit.create(ApiInterface::class.java)

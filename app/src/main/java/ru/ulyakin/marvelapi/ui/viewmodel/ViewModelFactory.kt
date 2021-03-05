@@ -1,4 +1,4 @@
-package ru.ulyakin.marvelapi.ui
+package ru.ulyakin.marvelapi.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

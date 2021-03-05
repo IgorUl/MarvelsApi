@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import ru.ulyakin.marvelapi.api.MarvelApiService
 import ru.ulyakin.marvelapi.data.HeroesMapper
 import ru.ulyakin.marvelapi.data.MarvelRepository
+import ru.ulyakin.marvelapi.ui.viewmodel.ViewModelFactory
 
 object Injection {
 

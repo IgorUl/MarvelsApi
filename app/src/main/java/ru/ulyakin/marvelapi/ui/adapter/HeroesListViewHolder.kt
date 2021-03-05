@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvelsapi.R
 import ru.ulyakin.marvelapi.model.Hero
 import ru.ulyakin.marvelapi.common.load
+import ru.ulyakin.marvelsapi.R
 
 class HeroesListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val name: TextView = view.findViewById(R.id.hero_name)

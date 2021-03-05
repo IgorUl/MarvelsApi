@@ -40,7 +40,7 @@ class MarvelPagingSource(private val service: ApiInterface, private val mapper: 
     }
 
     companion object {
-        private const val NETWORK_PAGE_SIZE = 20
+        private const val NETWORK_PAGE_SIZE = 10
         private const val MARVEL_API_STARTING_PAGE_INDEX = 0
     }
 }

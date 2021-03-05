@@ -2,11 +2,11 @@ package ru.ulyakin.marvelapi.common
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.example.marvelsapi.R
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_MD5
 import ru.ulyakin.marvelapi.data.HeroesMapper
 import ru.ulyakin.marvelapi.model.Hero
 import ru.ulyakin.marvelapi.model.MarvelCharacters
+import ru.ulyakin.marvelsapi.R
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
