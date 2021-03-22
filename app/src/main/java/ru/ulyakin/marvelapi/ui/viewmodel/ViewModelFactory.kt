@@ -2,7 +2,7 @@ package ru.ulyakin.marvelapi.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.ulyakin.marvelapi.data.MarvelRepository
+import ru.ulyakin.marvelapi.data.repository.MarvelRepository
 
 class ViewModelFactory(private val repository: MarvelRepository) : ViewModelProvider.Factory {
 

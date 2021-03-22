@@ -3,7 +3,7 @@ package ru.ulyakin.marvelapi.ui.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import ru.ulyakin.marvelapi.model.Hero
+import ru.ulyakin.marvelapi.data.model.Hero
 
 class HeroesListAdapter : PagingDataAdapter<Hero, HeroesListViewHolder>(HERO_COMPARATOR) {
 

@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import kotlinx.android.synthetic.main.fragment_hero_list.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import ru.ulyakin.marvelapi.MarvelApp
 import ru.ulyakin.marvelapi.ui.viewmodel.HeroesListViewModel
-import ru.ulyakin.marvelapi.ui.Injection
 import ru.ulyakin.marvelapi.ui.adapter.HeroesListAdapter
 import ru.ulyakin.marvelapi.ui.adapter.HeroesLoadStateAdapter
 import ru.ulyakin.marvelsapi.R
@@ -23,8 +18,6 @@ import ru.ulyakin.marvelsapi.R
 class HeroListFragment : Fragment() {
 
     private lateinit var viewModel: HeroesListViewModel
-    private val pagingAdapter = HeroesListAdapter()
-    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,50 +29,40 @@ class HeroListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(
+        val factory = (activity?.application as MarvelApp).factory
+        viewModel = ViewModelProvider(this, factory).get(
             HeroesListViewModel::class.java
         )
     }
 
-    private fun loadHeroes() {
-        searchJob?.cancel()
-        searchJob = viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getHero().collectLatest {
-                pagingAdapter.submitData(it)
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+        initAdapter()
+
+    private fun initAdapter() {
+        val adapter = HeroesListAdapter()
+        adapter.apply {
+            initAdapterFooter(this)
+            subscribeForItems(this)
+            initStateListener(adapter)
+            retry_button_main.setOnClickListener { adapter.retry() }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initAdapter()
-        loadHeroes()
-        initStateListener()
-        retry_button_main.setOnClickListener { pagingAdapter.retry() }
-    }
-
-    private fun initAdapter() {
-        rvheroes_list.adapter = pagingAdapter.withLoadStateFooter(
-            footer = HeroesLoadStateAdapter { pagingAdapter.retry() }
+    private fun initAdapterFooter(adapter: HeroesListAdapter) {
+        rvheroes_list.adapter = adapter.withLoadStateFooter(
+            footer = HeroesLoadStateAdapter { adapter.retry() }
         )
     }
 
-    private fun initStateListener() {
-        pagingAdapter.addLoadStateListener { loadState ->
+    private fun subscribeForItems(adapter: HeroesListAdapter) {
+        adapter.submitData(lifecycle, viewModel.heroesList)
+    }
+
+    private fun initStateListener(adapter: HeroesListAdapter) {
+        adapter.addLoadStateListener { loadState ->
             rvheroes_list.isVisible = loadState.source.refresh is LoadState.NotLoading
             progress_bar_main.isVisible = loadState.source.refresh is LoadState.Loading
             retry_button_main.isVisible = loadState.source.refresh is LoadState.Error
-
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-            errorState?.let {
-                Toast.makeText(
-                    context,
-                    "\uD83D\uDE28 Wooops ${it.error}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         }
     }
 }

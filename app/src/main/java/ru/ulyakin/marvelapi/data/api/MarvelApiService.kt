@@ -1,4 +1,4 @@
-package ru.ulyakin.marvelapi.api
+package ru.ulyakin.marvelapi.data.api
 
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.limit
 import com.google.gson.Gson
@@ -7,7 +7,6 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_BASE_URL
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_PRIVATE_KEY
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_API_KEY
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_HASH
@@ -23,7 +22,7 @@ import javax.security.cert.CertificateException
 import ru.ulyakin.marvelapi.common.md5
 import kotlin.jvm.Throws
 
-class MarvelApiService {
+object MarvelApiService {
 
     private val timeStamp: String = System.currentTimeMillis().toString()
 
@@ -48,15 +47,14 @@ class MarvelApiService {
         return chain.proceed(request)
     }
 
-    fun init(): ApiInterface {
+    fun create(baseUrl: String): ApiInterface {
         val responseGson: Gson = GsonBuilder().setLenient().create()
 
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(PROP_BASE_URL)
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(responseGson))
             .client(unsafeClient)
-            .build()
-        return retrofit.create(ApiInterface::class.java)
+            .build().create(ApiInterface::class.java)
     }
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
