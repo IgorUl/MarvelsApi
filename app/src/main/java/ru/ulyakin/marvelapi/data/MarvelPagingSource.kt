@@ -2,10 +2,11 @@ package ru.ulyakin.marvelapi.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ru.ulyakin.marvelapi.model.Hero
-import ru.ulyakin.marvelapi.api.ApiInterface
+import ru.ulyakin.marvelapi.data.model.Hero
+import ru.ulyakin.marvelapi.data.api.ApiInterface
 import retrofit2.HttpException
 import ru.ulyakin.marvelapi.common.asDomainModel
+import ru.ulyakin.marvelapi.data.mapper.HeroesMapper
 import java.io.IOException
 
 class MarvelPagingSource(private val service: ApiInterface, private val mapper: HeroesMapper) :

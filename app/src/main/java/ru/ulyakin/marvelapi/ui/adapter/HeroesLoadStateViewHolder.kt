@@ -18,16 +18,17 @@ class HeroesLoadStateViewHolder(view: View, retry: () -> Unit) : RecyclerView.Vi
     private val retryButton: Button = view.findViewById(R.id.retry_button)
 
     init {
-        retryButton.setOnClickListener { retry.invoke() }
+        retryButton.setOnClickListener { retry() }
     }
 
     fun bind(loadState: LoadState) {
+        val isLoadingState = loadState is LoadState.Loading
         if (loadState is LoadState.Error) {
             errorMsg.text = loadState.error.localizedMessage
         }
-        progressBar.isVisible = loadState is LoadState.Loading
-        retryButton.isVisible = loadState !is LoadState.Loading
-        errorMsg.isVisible = loadState !is LoadState.Loading
+        progressBar.isVisible = isLoadingState
+        retryButton.isVisible = !isLoadingState
+        errorMsg.isVisible = !isLoadingState
     }
 
     companion object {

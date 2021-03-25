@@ -1,4 +1,4 @@
-package ru.ulyakin.marvelapi.model
+package ru.ulyakin.marvelapi.data.model
 
 data class Hero(
     val id: Int,

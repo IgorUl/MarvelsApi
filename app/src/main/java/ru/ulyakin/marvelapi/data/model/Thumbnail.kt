@@ -1,8 +1,8 @@
-package ru.ulyakin.marvelapi.model
+package ru.ulyakin.marvelapi.data.model
 
 import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_IMAGE_RATIO
 
-data class Thumbnail(
+class Thumbnail(
     private val path: String,
     private val extension: String
 ) {

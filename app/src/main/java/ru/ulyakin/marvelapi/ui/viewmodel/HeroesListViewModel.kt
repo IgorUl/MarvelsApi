@@ -4,22 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import ru.ulyakin.marvelapi.model.Hero
-import kotlinx.coroutines.flow.Flow
-import ru.ulyakin.marvelapi.data.MarvelRepository
+import ru.ulyakin.marvelapi.data.model.Hero
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import ru.ulyakin.marvelapi.data.repository.MarvelRepository
 
 class HeroesListViewModel(private val repo: MarvelRepository) : ViewModel() {
 
-    private var currentHeroesList: Flow<PagingData<Hero>>? = null
+    lateinit var heroesList: PagingData<Hero>
 
-    fun getHero(): Flow<PagingData<Hero>> {
-        val lastResult = currentHeroesList
-        if (lastResult != null) {
-            return lastResult
+    init {
+        fetchHeroes()
+    }
+
+    private fun fetchHeroes() {
+        viewModelScope.launch {
+            repo.fetchHero().cachedIn(viewModelScope).collectLatest { heroesList = it }
         }
-        val newResult: Flow<PagingData<Hero>> = repo.getHeroesList()
-            .cachedIn(viewModelScope)
-        currentHeroesList = newResult
-        return newResult
     }
 }

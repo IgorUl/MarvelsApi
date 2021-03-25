@@ -1,6 +1,6 @@
-package ru.ulyakin.marvelapi.data
+package ru.ulyakin.marvelapi.data.mapper
 
-import ru.ulyakin.marvelapi.model.Hero
+import ru.ulyakin.marvelapi.data.model.Hero
 
 class HeroesMapper {
     fun map(hero: Hero): Hero =

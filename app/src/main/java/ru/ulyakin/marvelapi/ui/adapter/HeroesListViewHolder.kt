@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.ulyakin.marvelapi.model.Hero
+import ru.ulyakin.marvelapi.data.model.Hero
 import ru.ulyakin.marvelapi.common.load
 import ru.ulyakin.marvelsapi.R
 
