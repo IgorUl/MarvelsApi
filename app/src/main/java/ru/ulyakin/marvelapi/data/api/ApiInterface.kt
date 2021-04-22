@@ -12,6 +12,6 @@ interface ApiInterface {
     suspend fun getCharacter(@Query("offset") offset: Int? = 0): MarvelCharacters
 
     @GET("/v1/public/characters/{id}")
-    suspend fun getCharacterInfo(@Path("id") heroId: Int): Hero
+    suspend fun getCharacterDetail(@Path("id") heroId: Int): Hero
 
 }

@@ -1,25 +1,17 @@
 package ru.ulyakin.marvelapi.data.api
 
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.limit
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_PRIVATE_KEY
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_API_KEY
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_HASH
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_LIMIT
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_SSL
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_TIME_STAMP
-import ru.ulyakin.marvelapi.common.ApiConstants.Companion.PROP_PUBLIC_KEY
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 import javax.security.cert.CertificateException
-import ru.ulyakin.marvelapi.common.md5
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import kotlin.jvm.Throws
 
 object MarvelApiService {
@@ -31,14 +23,13 @@ object MarvelApiService {
     }
 
     private fun createDefaultParameters(chain: Interceptor.Chain): Response {
-
         val stringToHash: String = timeStamp + PROP_PRIVATE_KEY + PROP_PUBLIC_KEY
         val original: Request = chain.request()
         val originalHttpUrl: HttpUrl = original.url
         val url: HttpUrl = originalHttpUrl.newBuilder()
             .addQueryParameter(PROP_TIME_STAMP, timeStamp)
             .addQueryParameter(PROP_API_KEY, PROP_PUBLIC_KEY)
-            .addQueryParameter(PROP_HASH, stringToHash.md5())
+            .addQueryParameter(PROP_HASH, convertStringToMd5(stringToHash))
             .addQueryParameter(PROP_LIMIT, "$limit")
             .build()
         val requestBuilder: Request.Builder = original.newBuilder()
@@ -48,19 +39,21 @@ object MarvelApiService {
     }
 
     fun create(baseUrl: String): ApiInterface {
-        val responseGson: Gson = GsonBuilder().setLenient().create()
+        val responseMoshi: Moshi = Moshi.Builder().build()
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(responseGson))
+            .addConverterFactory(MoshiConverterFactory.create(responseMoshi))
             .client(unsafeClient)
-            .build().create(ApiInterface::class.java)
+            .build()
+            .create(ApiInterface::class.java)
     }
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
         this.addInterceptor(interceptor)
-        this.addInterceptor { chain -> createDefaultParameters(chain) }
+        this.addInterceptor(this@MarvelApiService::createDefaultParameters)
     }.build()
+
 
     private fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
         try {
@@ -96,4 +89,35 @@ object MarvelApiService {
             throw RuntimeException(e)
         }
     }
+
+    private fun convertStringToMd5(stringToConvert: String): String {
+        try {
+            val digest: MessageDigest = MessageDigest.getInstance(PROP_MD5)
+            digest.update(stringToConvert.toByteArray())
+            val messageDigest: ByteArray = digest.digest()
+            val hexString = StringBuilder()
+
+            for (aMessageDigest: Byte in messageDigest) {
+                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
+                while (h.length < 2) {
+                    h = "0$h"
+                }
+                hexString.append(h)
+            }
+            return hexString.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    private const val limit = 10
+    private const val PROP_PUBLIC_KEY = "5d583fdfbb234ce822fc0b5a4075c6a1"
+    private const val PROP_PRIVATE_KEY = "37ebccd0994a76faf8984373d8fecc5bd32ba1b3"
+    private const val PROP_SSL = "SSL"
+    private const val PROP_TIME_STAMP = "ts"
+    private const val PROP_API_KEY = "apikey"
+    private const val PROP_HASH = "hash"
+    private const val PROP_LIMIT = "limit"
+    private const val PROP_MD5 = "MD5"
 }

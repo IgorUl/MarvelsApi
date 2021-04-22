@@ -6,26 +6,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import ru.ulyakin.marvelapi.data.model.Hero
-import ru.ulyakin.marvelapi.common.load
 import ru.ulyakin.marvelsapi.R
 
-class HeroesListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class HeroesListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     private val name: TextView = view.findViewById(R.id.hero_name)
     private val image: ImageView = view.findViewById(R.id.hero_image)
 
-//todo later
-//    init {
-//        view.setOnClickListener {
-//            }
-//        }
-//    }
-
-    fun bind(hero: Hero) {
+    fun bind(hero: Hero, itemClickListener: OnItemClickListener) {
         val heroImagePath: String = hero.thumbnail.getImageUrl()
-
         name.text = hero.name
-        image.load(heroImagePath)
+
+        image.load(heroImagePath) {
+            crossfade(true)
+        }
+
+        view.setOnClickListener {
+            itemClickListener.onItemClicked(hero)
+        }
     }
 
     companion object {

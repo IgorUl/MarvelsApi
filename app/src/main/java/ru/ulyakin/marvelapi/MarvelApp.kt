@@ -9,12 +9,14 @@ import ru.ulyakin.marvelsapi.R
 
 class MarvelApp : Application() {
 
+    // TODO Navigation Component; Dagger Hilt;
     lateinit var factory: ViewModelFactory
         private set
 
     override fun onCreate() {
         super.onCreate()
-        val api = MarvelApiService.create(getString(R.string.base_url))
+        val baseUrl = getString(R.string.base_url)
+        val api = MarvelApiService.create(baseUrl)
         val repo = MarvelRepository(api, HeroesMapper())
         factory = ViewModelFactory(repo)
     }

@@ -9,9 +9,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.ulyakin.marvelapi.data.repository.MarvelRepository
 
-class HeroesListViewModel(private val repo: MarvelRepository) : ViewModel() {
+class HeroesListViewModel(private val repo: MarvelRepository) :
+//    AndroidViewModel(application) { // TODO
+    ViewModel() {
 
-    lateinit var heroesList: PagingData<Hero>
+    lateinit var heroesList: PagingData<Hero> // TODO remove lateinit
 
     init {
         fetchHeroes()
@@ -19,7 +21,9 @@ class HeroesListViewModel(private val repo: MarvelRepository) : ViewModel() {
 
     private fun fetchHeroes() {
         viewModelScope.launch {
-            repo.fetchHero().cachedIn(viewModelScope).collectLatest { heroesList = it }
+            repo.fetchHeroList()
+                .cachedIn(viewModelScope)
+                .collectLatest { heroesList = it }
         }
     }
 }

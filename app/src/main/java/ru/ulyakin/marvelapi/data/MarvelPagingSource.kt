@@ -11,6 +11,7 @@ import java.io.IOException
 
 class MarvelPagingSource(private val service: ApiInterface, private val mapper: HeroesMapper) :
     PagingSource<Int, Hero>() {
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hero> {
         val position = params.key ?: MARVEL_API_STARTING_PAGE_INDEX
         val offset = position * NETWORK_PAGE_SIZE
@@ -28,17 +29,17 @@ class MarvelPagingSource(private val service: ApiInterface, private val mapper: 
                 nextKey = nextKey
             )
         } catch (exception: IOException) {
-            return LoadResult.Error(exception)
+            LoadResult.Error(exception)
         } catch (exception: HttpException) {
-            return LoadResult.Error(exception)
+            LoadResult.Error(exception)
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Hero>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+    override fun getRefreshKey(state: PagingState<Int, Hero>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.id
         }
-    }
+
 
     companion object {
         private const val NETWORK_PAGE_SIZE = 10

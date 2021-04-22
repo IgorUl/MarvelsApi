@@ -1,5 +1,8 @@
 package ru.ulyakin.marvelapi.data.model
 
-class MarvelCharacters(
+data class MarvelCharacters( // response
     val data: MarvelCharactersData
-)
+) {
+    // MarvelCharactersData
+//    fun map()
+}

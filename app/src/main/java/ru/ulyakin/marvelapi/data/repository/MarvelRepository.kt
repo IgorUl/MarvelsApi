@@ -11,13 +11,18 @@ import ru.ulyakin.marvelapi.data.mapper.HeroesMapper
 
 class MarvelRepository(private val service: ApiInterface, private val mapper: HeroesMapper) {
 
-    fun fetchHero(): Flow<PagingData<Hero>> {
-        return Pager(
+    fun fetchHeroList(): Flow<PagingData<Hero>> =
+        Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = true
-            ), pagingSourceFactory = { MarvelPagingSource(service, mapper) }
+            ), pagingSourceFactory = {
+                MarvelPagingSource(service, mapper)
+            }
         ).flow
+
+    suspend fun fetchHeroDetail(id: Int): Hero {
+        return service.getCharacterDetail(id)
     }
 
     companion object {

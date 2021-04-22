@@ -2,5 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">Marvels Api</string>
     <string name="hero_photo" translatable="false">hero photo</string>
+    <string name="comics_photo" translatable="false">comics photo</string>
+    <string name="comics">Сomics</string>
     <string name="retry_button_text">Retry</string>
 </resources>

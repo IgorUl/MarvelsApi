@@ -3,20 +3,22 @@ package ru.ulyakin.marvelapi.ui.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import coil.memory.MemoryCache
 import ru.ulyakin.marvelapi.data.model.Hero
 
-class HeroesListAdapter : PagingDataAdapter<Hero, HeroesListViewHolder>(HERO_COMPARATOR) {
+class HeroesListAdapter(private val itemClickListener: OnItemClickListener) :
+    PagingDataAdapter<Hero, HeroesListViewHolder>(HERO_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroesListViewHolder {
-        return HeroesListViewHolder.create(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroesListViewHolder =
+        HeroesListViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: HeroesListViewHolder, position: Int) {
         val heroItem = getItem(position)
         if (heroItem != null) {
-            holder.bind(heroItem)
-        }
+            holder.bind(heroItem, itemClickListener)
+        } // TODO
     }
+
 
     companion object {
         private val HERO_COMPARATOR = object : DiffUtil.ItemCallback<Hero>() {
@@ -27,4 +29,8 @@ class HeroesListAdapter : PagingDataAdapter<Hero, HeroesListViewHolder>(HERO_COM
                 oldItem == newItem
         }
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClicked(hero: Hero)
 }

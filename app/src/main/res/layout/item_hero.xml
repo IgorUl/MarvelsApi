@@ -11,7 +11,7 @@
         android:id="@+id/hero_image"
         android:src="@drawable/marvel"
         android:adjustViewBounds="true"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:transitionName="charImage"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:src="@tools:sample/avatars"
-        android:contentDescription="@string/hero_photo"/>
+        android:contentDescription="@string/hero_photo" />
 
     <TextView
         android:id="@+id/hero_name"
@@ -37,7 +37,5 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="4"
-        tools:text="@tools:sample/full_names"
-        />
-
+        tools:text="@tools:sample/full_names" />
 </androidx.constraintlayout.widget.ConstraintLayout>

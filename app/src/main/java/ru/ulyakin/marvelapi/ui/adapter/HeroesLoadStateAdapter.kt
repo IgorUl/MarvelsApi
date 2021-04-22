@@ -8,14 +8,12 @@ class HeroesLoadStateAdapter(
     private val retry: () -> Unit
 ) : LoadStateAdapter<HeroesLoadStateViewHolder>() {
 
-    override fun onBindViewHolder(holder: HeroesLoadStateViewHolder, loadState: LoadState) {
+    override fun onBindViewHolder(holder: HeroesLoadStateViewHolder, loadState: LoadState) =
         holder.bind(loadState)
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         loadState: LoadState
-    ): HeroesLoadStateViewHolder {
-        return HeroesLoadStateViewHolder.create(parent, retry)
-    }
+    ): HeroesLoadStateViewHolder =
+        HeroesLoadStateViewHolder.create(parent, retry)
 }
